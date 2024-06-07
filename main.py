@@ -1,7 +1,7 @@
 # Pega numero infinito
 import sys
 
-def algoritimo_dijkstra(grafo, origem, destino):
+def algoritimo_dijkstra(grafo, origem, destino): 
 
     # Inicialização das distâncias com infinito, exceto a origem que é zero
     distancias = {v: sys.maxsize for v in grafo}
