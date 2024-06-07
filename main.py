@@ -13,7 +13,7 @@ def algoritimo_dijkstra(grafo, origem, destino):
     while visitados != set(distancias):
         # Encontra o vértice não visitado com menor distância atual
         vertice_atual = None
-        menor_distancia = sys.maxsize 
+        menor_distancia = sys.maxsize
 
         for v in grafo:
             if v not in visitados and distancias[v] < menor_distancia:
