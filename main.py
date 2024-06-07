@@ -1,42 +1,52 @@
-# Pega numero infinito
+# importa valor infinito
 import sys
 
 def algoritimo_dijkstra(grafo, origem, destino): 
 
-    # Inicialização das distâncias com infinito, exceto a origem que é zero
+    # Inicialização das distâncias (arestas) com infinito, e a origem com zero
     distancias = {v: sys.maxsize for v in grafo}
     distancias[origem] = 0
 
     # Conjunto de vértices visitados
     visitados = set()
 
+    # Conjunto para rastrear os vértices visitados
+    vertices_visitados_caminho = {}
+
     while visitados != set(distancias):
         # Encontra o vértice não visitado com menor distância atual
-        vertice_atual = None
+        vertice_atual   = None
         menor_distancia = sys.maxsize
 
         for v in grafo:
             if v not in visitados and distancias[v] < menor_distancia:
-                # print(f"antigo: {vertice_atual}")
-                vertice_atual = v
-                # print(f"novo: {vertice_atual}")
-                # print(f"antigo d: {menor_distancia}")
+                vertice_atual   = v
                 menor_distancia = distancias[v]
-                # print(f"novo d: {menor_distancia}")
 
-        print(f"vertice atual: {vertice_atual} menor {menor_distancia} distancia: {distancias[v]}")
         # Marca o vértice atual como visitado
         visitados.add(vertice_atual)
 
         # Atualiza as distâncias dos vértices vizinhos
         for vizinho, peso in grafo[vertice_atual].items():
             if distancias[vertice_atual] + peso < distancias[vizinho]:
+                # Atualiza a distância do vértice vizinho 
                 distancias[vizinho] = distancias[vertice_atual] + peso
+                # Atualiza o vértice visitado para o menor caminho
+                vertices_visitados_caminho[vizinho] = vertice_atual
     
-    # Retorna as distâncias do destino
+    # Recuperando o caminho percorrido
+    caminho = [destino]
+    while caminho[-1] != origem:
+        caminho.append(vertices_visitados_caminho[caminho[-1]])
+    caminho.reverse()
+
+    # "->".join() coloca a string entre as iterações
+    print(f"O menor caminho percorrido de {origem} até {destino} é:", " -> ".join(caminho))
+
+    # Retorna os km do caminho mais curto
     return distancias[destino]
 
-# Definindo a lista de adjacencia
+# Definindo a lista de adjacência
 grafo = {
   'A': {'B': 5, 'D': 3, 'E': 10},
   'B': {'A': 5, 'C': 8, 'D': 1},
@@ -47,6 +57,6 @@ grafo = {
 
 # Ponto de partida
 origem  = 'A'
-destino = 'B'
+destino = 'C'
 
-print(algoritimo_dijkstra(grafo, origem, destino))
+print(f"Distância: {algoritimo_dijkstra(grafo, origem, destino)} Km")
